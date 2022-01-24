@@ -20,17 +20,26 @@ shinyServer(function(input, output) {
   output$priceUSD = renderText(paste("$",shinyData$price.USD.[shinyData$name == input$selector]))
   output$priceETH = renderText(paste(shinyData$price.ETH.[shinyData$name == input$selector], "ETH"))
   output$owner = renderText(paste(shinyData$currentOwner[shinyData$name == input$selector]))
+  output$mean <- renderText(paste(signif(mean(as.numeric(transactionData$amount[transactionData$name == input$selector]), na.rm = TRUE),4)))
+  output$standard_deviation <- renderText(paste(signif(sd(as.numeric(transactionData$amount[transactionData$name == input$selector]), na.rm = TRUE),5)))
+  output$coefficientofsd <- renderText(paste(signif((sd(as.numeric(transactionData$amount[transactionData$name == input$selector]), na.rm = TRUE)/mean(as.numeric(transactionData$amount[transactionData$name == input$selector]), na.rm = TRUE)),4)))
+  output$max <- renderText(paste(signif(max(as.numeric(transactionData$amount[transactionData$name == input$selector]), na.rm = FALSE),4)))
+  output$min <- renderText(paste(signif(min(as.numeric(transactionData$amount[transactionData$name == input$selector]), na.rm = FALSE),4)))
+  output$quantile <- renderText(paste(signif(quantile(as.numeric(transactionData$amount[transactionData$name == input$selector]), probs = c(0.25,0.75)),4))) 
   output$plot1 <- renderPlot({plot(transactionData$amount[transactionData$name ==input$selector],
                                    type = "l",
                                    lwd = 3,
                                    col="navy",
-                                   xlab = "N days ago",
+                                   xlab = "Days",
                                    ylab = "Price(ETH)",
                                    main = input$selector)},
                              res = 96)
   output$image <- renderUI(
     tags$img(src = shinyData$image_src.1.100.[shinyData$name == input$selector], width = "100px")
+  
   )
+  
+  
   
   # trending
   output$img1 <- renderUI(
