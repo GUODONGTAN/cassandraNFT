@@ -18,7 +18,7 @@ transactionData <- data.frame(read.csv("https://raw.githubusercontent.com/GUODON
 
 # Define UI for application that draws a histogram
 shinyUI <- dashboardPage(
-  dashboardHeader(title = "Cassandra"),
+  dashboardHeader(title = "CassandraNFT"),
   dashboardSidebar(
     width = 250,
     sidebarMenu(
@@ -49,21 +49,35 @@ shinyUI <- dashboardPage(
                     h1(textOutput("name")))
                 ),
               fluidRow(
-                column(width = 4,
-                  infoBox("Price in USD: ", width = NULL, color = "maroon", icon = icon("dollar-sign"),
+                column(width = 6,
+                  infoBox("USD: ", width = NULL, color = "maroon", icon = icon("dollar-sign"),
                           textOutput("priceUSD"))),
-                column(width = 4,
-                  infoBox("Price in ETH: ", width = NULL, color = "aqua", icon = icon("ethereum"),
+                column(width = 6,
+                  infoBox("ETHER: ", width = NULL, color = "aqua", icon = icon("ethereum"),
                           textOutput("priceETH"))),
-                column(width = 4,
-                  infoBox("Current Owner Address: ", color = "yellow", width = NULL, icon = icon("user"),
+                column(width = 12,
+                  infoBox("Current Owner Address: ", color = "yellow", width = 12, icon = icon("user"),
                           textOutput("owner"))),
                 box(title = "Historical Price", status = "primary", width = 12, solidHeader =TRUE,
-                    plotOutput("plot1"))
-                 
-                )
+                    plotOutput("plot1")),
+                column(width = 5,
+                  infoBox(title = "Mean", width = NULL, color = "maroon", icon = icon("balance-scale"), textOutput('mean'))),
+                column(width = 7,
+                  infoBox(title = "Standard Deviation", width = NULL, color = "aqua", icon = icon("chart-line"), textOutput('standard_deviation'))),
+                column(width = 8,
+                infoBox(title = "Volatility (Coefficient of Variation)", width = NULL, color = "aqua", icon = icon("cash-register"), textOutput('coefficientofsd'))),
+                column(width = 4,
+                  infoBox(title = "High", width = NULL, color = "maroon", icon = icon("wallet"), textOutput('max'))),
+                column(width = 4,
+                  infoBox(title = "Low", width = NULL, color = "maroon", icon = icon("stamp"), textOutput('min'))),
+                column(width = 8,
+                       infoBox(title = "percentile （25% & 75%）", width = NULL, color = "aqua", icon = icon("money-bill-wave-alt"), textOutput('quantile'))),
+                ),
+      ),
+              
+
                 
-              ),
+
       # Trending page content
       tabItem(tabName = "trending",
               fluidRow(
@@ -73,9 +87,9 @@ shinyUI <- dashboardPage(
                   collapsible = TRUE,
                   fluidRow(
                     column(width = 3, uiOutput("img1")),
-                    column(width = 3, infoBox("Price in USD: ", width = NULL, color = "maroon", icon = icon("dollar-sign"),
+                    column(width = 3, infoBox("USD: ", width = NULL, color = "maroon", icon = icon("dollar-sign"),
                                               textOutput("p1"))),
-                    column(width = 3, infoBox("Price in ETH: ", width = NULL, color = "aqua", icon = icon("ethereum"),
+                    column(width = 3, infoBox("ETHER: ", width = NULL, color = "aqua", icon = icon("ethereum"),
                                               textOutput("e1"))),
                     column(width = 3, infoBox("Current Owner Address: ", color = "yellow", width = NULL, icon = icon("user"),
                                               textOutput("o1")))
@@ -86,9 +100,9 @@ shinyUI <- dashboardPage(
                   collapsible = TRUE,
                   fluidRow(
                     column(width = 3, uiOutput("img2")),
-                    column(width = 3, infoBox("Price in USD: ", width = NULL, color = "maroon", icon = icon("dollar-sign"),
+                    column(width = 3, infoBox("USD: ", width = NULL, color = "maroon", icon = icon("dollar-sign"),
                                               textOutput("p2"))),
-                    column(width = 3, infoBox("Price in ETH: ", width = NULL, color = "aqua", icon = icon("ethereum"),
+                    column(width = 3, infoBox("ETHER: ", width = NULL, color = "aqua", icon = icon("ethereum"),
                                               textOutput("e2"))),
                     column(width = 3, infoBox("Current Owner Address: ", color = "yellow", width = NULL, icon = icon("user"),
                                               textOutput("o2")))
@@ -99,9 +113,9 @@ shinyUI <- dashboardPage(
                   collapsible = TRUE,
                   fluidRow(
                     column(width = 3, uiOutput("img3")),
-                    column(width = 3, infoBox("Price in USD: ", width = NULL, color = "maroon", icon = icon("dollar-sign"),
+                    column(width = 3, infoBox("USD: ", width = NULL, color = "maroon", icon = icon("dollar-sign"),
                                               textOutput("p3"))),
-                    column(width = 3, infoBox("Price in ETH: ", width = NULL, color = "aqua", icon = icon("ethereum"),
+                    column(width = 3, infoBox("ETHER: ", width = NULL, color = "aqua", icon = icon("ethereum"),
                                               textOutput("e3"))),
                     column(width = 3, infoBox("Current Owner Address: ", color = "yellow", width = NULL, icon = icon("user"),
                                               textOutput("o3")))
@@ -112,9 +126,9 @@ shinyUI <- dashboardPage(
                   collapsible = TRUE,
                   fluidRow(
                     column(width = 3, uiOutput("img4")),
-                    column(width = 3, infoBox("Price in USD: ", width = NULL, color = "maroon", icon = icon("dollar-sign"),
+                    column(width = 3, infoBox("USD: ", width = NULL, color = "maroon", icon = icon("dollar-sign"),
                                               textOutput("p4"))),
-                    column(width = 3, infoBox("Price in ETH: ", width = NULL, color = "aqua", icon = icon("ethereum"),
+                    column(width = 3, infoBox("ETHER: ", width = NULL, color = "aqua", icon = icon("ethereum"),
                                               textOutput("e4"))),
                     column(width = 3, infoBox("Current Owner Address: ", color = "yellow", width = NULL, icon = icon("user"),
                                               textOutput("o4")))
@@ -125,9 +139,9 @@ shinyUI <- dashboardPage(
                   collapsible = TRUE,
                   fluidRow(
                     column(width = 3, uiOutput("img5")),
-                    column(width = 3, infoBox("Price in USD: ", width = NULL, color = "maroon", icon = icon("dollar-sign"),
+                    column(width = 3, infoBox("USD: ", width = NULL, color = "maroon", icon = icon("dollar-sign"),
                                               textOutput("p5"))),
-                    column(width = 3, infoBox("Price in ETH: ", width = NULL, color = "aqua", icon = icon("ethereum"),
+                    column(width = 3, infoBox("ETHER: ", width = NULL, color = "aqua", icon = icon("ethereum"),
                                               textOutput("e5"))),
                     column(width = 3, infoBox("Current Owner Address: ", color = "yellow", width = NULL, icon = icon("user"),
                                               textOutput("o5")))
@@ -138,9 +152,9 @@ shinyUI <- dashboardPage(
                   collapsible = TRUE,
                   fluidRow(
                     column(width = 3, uiOutput("img6")),
-                    column(width = 3, infoBox("Price in USD: ", width = NULL, color = "maroon", icon = icon("dollar-sign"),
+                    column(width = 3, infoBox("USD: ", width = NULL, color = "maroon", icon = icon("dollar-sign"),
                                               textOutput("p6"))),
-                    column(width = 3, infoBox("Price in ETH: ", width = NULL, color = "aqua", icon = icon("ethereum"),
+                    column(width = 3, infoBox("ETHER: ", width = NULL, color = "aqua", icon = icon("ethereum"),
                                               textOutput("e6"))),
                     column(width = 3, infoBox("Current Owner Address: ", color = "yellow", width = NULL, icon = icon("user"),
                                               textOutput("o6")))
@@ -151,9 +165,9 @@ shinyUI <- dashboardPage(
                   collapsible = TRUE,
                   fluidRow(
                     column(width = 3, uiOutput("img7")),
-                    column(width = 3, infoBox("Price in USD: ", width = NULL, color = "maroon", icon = icon("dollar-sign"),
+                    column(width = 3, infoBox("USD: ", width = NULL, color = "maroon", icon = icon("dollar-sign"),
                                               textOutput("p7"))),
-                    column(width = 3, infoBox("Price in ETH: ", width = NULL, color = "aqua", icon = icon("ethereum"),
+                    column(width = 3, infoBox("ETHER: ", width = NULL, color = "aqua", icon = icon("ethereum"),
                                               textOutput("e7"))),
                     column(width = 3, infoBox("Current Owner Address: ", color = "yellow", width = NULL, icon = icon("user"),
                                               textOutput("o7")))
@@ -164,9 +178,9 @@ shinyUI <- dashboardPage(
                   collapsible = TRUE,
                   fluidRow(
                     column(width = 3, uiOutput("img8")),
-                    column(width = 3, infoBox("Price in USD: ", width = NULL, color = "maroon", icon = icon("dollar-sign"),
+                    column(width = 3, infoBox("USD: ", width = NULL, color = "maroon", icon = icon("dollar-sign"),
                                               textOutput("p8"))),
-                    column(width = 3, infoBox("Price in ETH: ", width = NULL, color = "aqua", icon = icon("ethereum"),
+                    column(width = 3, infoBox("ETHER: ", width = NULL, color = "aqua", icon = icon("ethereum"),
                                               textOutput("e8"))),
                     column(width = 3, infoBox("Current Owner Address: ", color = "yellow", width = NULL, icon = icon("user"),
                                               textOutput("o8")))
@@ -177,9 +191,9 @@ shinyUI <- dashboardPage(
                   collapsible = TRUE,
                   fluidRow(
                     column(width = 3, uiOutput("img9")),
-                    column(width = 3, infoBox("Price in USD: ", width = NULL, color = "maroon", icon = icon("dollar-sign"),
+                    column(width = 3, infoBox("USD: ", width = NULL, color = "maroon", icon = icon("dollar-sign"),
                                               textOutput("p9"))),
-                    column(width = 3, infoBox("Price in ETH: ", width = NULL, color = "aqua", icon = icon("ethereum"),
+                    column(width = 3, infoBox("ETHER: ", width = NULL, color = "aqua", icon = icon("ethereum"),
                                               textOutput("e9"))),
                     column(width = 3, infoBox("Current Owner Address: ", color = "yellow", width = NULL, icon = icon("user"),
                                               textOutput("o9")))
@@ -190,9 +204,9 @@ shinyUI <- dashboardPage(
                   collapsible = TRUE,
                   fluidRow(
                     column(width = 3, uiOutput("img10")),
-                    column(width = 3, infoBox("Price in USD: ", width = NULL, color = "maroon", icon = icon("dollar-sign"),
+                    column(width = 3, infoBox("USD: ", width = NULL, color = "maroon", icon = icon("dollar-sign"),
                                               textOutput("p10"))),
-                    column(width = 3, infoBox("Price in ETH: ", width = NULL, color = "aqua", icon = icon("ethereum"),
+                    column(width = 3, infoBox("ETHER: ", width = NULL, color = "aqua", icon = icon("ethereum"),
                                               textOutput("e10"))),
                     column(width = 3, infoBox("Current Owner Address: ", color = "yellow", width = NULL, icon = icon("user"),
                                               textOutput("o10")))
@@ -215,7 +229,7 @@ shinyUI <- dashboardPage(
                   verbatimTextOutput("MYR"),
                   h4('ETH ($) -> USD ($)'),
                   verbatimTextOutput("USD"),
-                  h4('ETH ($) -> JPY (¥)'),
+                  h4('ETH ($) -> JPY (Â¥)'),
                   verbatimTextOutput("JPY"),
                   h4('ETH ($) -> CNY (YUAN)'),
                   verbatimTextOutput("CNY"),
